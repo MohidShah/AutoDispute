@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
-export default function Header() {
+interface HeaderProps {
+  onNavigate: (page: string) => void;
+}
+
+export default function Header({ onNavigate }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -11,40 +15,65 @@ export default function Header() {
     });
   }
 
-  const navLinks = ['Hero', 'Benefits', 'How It Works', 'Pricing', 'FAQ'];
+  const navLinks = [
+    { label: 'Benefits', id: 'benefits' },
+    { label: 'How It Works', id: 'how-it-works' },
+    { label: 'Pricing', id: 'pricing' },
+    { label: 'About', id: 'about' },
+    { label: 'Blog', id: 'blog' },
+    { label: 'Contact', id: 'contact' },
+  ];
+
+  const handleNavClick = (id: string) => {
+    if (['about', 'blog', 'contact', 'privacy', 'terms', 'security'].includes(id)) {
+      onNavigate(id);
+    } else {
+      onNavigate('home');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#F5F7FA] transition-shadow duration-300 ${
-        isScrolled ? 'shadow-md' : ''
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#0A0D14]/95 backdrop-blur-sm transition-all duration-300 ${
+        isScrolled ? 'shadow-lg border-b border-gray-800' : ''
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <span className="text-2xl font-bold text-[#1E1E2F]">AutoDispute</span>
-          </div>
+          <button
+            onClick={() => onNavigate('home')}
+            className="flex items-center hover:opacity-80 transition-opacity"
+          >
+            <span className="text-2xl font-bold text-white">AutoDispute</span>
+          </button>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-[#1E1E2F] hover:text-[#3366FF] transition-colors duration-200 text-sm font-medium"
+              <button
+                key={link.id}
+                onClick={() => handleNavClick(link.id)}
+                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
               >
-                {link}
-              </a>
+                {link.label}
+              </button>
             ))}
           </nav>
 
-          <div className="hidden md:block">
-            <button className="px-6 py-2.5 bg-[#3366FF] text-white rounded-lg font-medium hover:bg-[#28C76F] transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+          <div className="hidden lg:block">
+            <button className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg">
               Start Free Trial
             </button>
           </div>
 
           <button
-            className="md:hidden text-[#1E1E2F]"
+            className="lg:hidden text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -53,19 +82,18 @@ export default function Header() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-[#E0E6ED]">
+        <div className="lg:hidden bg-[#0A0D14] border-t border-gray-800">
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
-                className="block text-[#1E1E2F] hover:text-[#3366FF] transition-colors duration-200 py-2"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                key={link.id}
+                onClick={() => handleNavClick(link.id)}
+                className="block w-full text-left text-gray-300 hover:text-white transition-colors duration-200 py-2"
               >
-                {link}
-              </a>
+                {link.label}
+              </button>
             ))}
-            <button className="w-full px-6 py-2.5 bg-[#3366FF] text-white rounded-lg font-medium hover:bg-[#28C76F] transition-colors duration-200">
+            <button className="w-full px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-colors duration-200 mt-4">
               Start Free Trial
             </button>
           </div>

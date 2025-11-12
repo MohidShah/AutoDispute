@@ -51,36 +51,36 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F7FA]">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-[#1E1E2F] mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Loved by Businesses Everywhere
           </h2>
-          <p className="text-xl text-gray-600">See what our customers have to say</p>
+          <p className="text-xl text-gray-400">See what our customers have to say</p>
         </div>
 
         <div className="relative max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-12 min-h-[300px] flex flex-col justify-center">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-800 rounded-3xl shadow-2xl p-12 min-h-[300px] flex flex-col justify-center">
             <div className="flex justify-center mb-6">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={24} className="text-[#FFA94D] fill-[#FFA94D]" />
+                <Star key={i} size={24} className="text-yellow-500 fill-yellow-500" />
               ))}
             </div>
 
-            <blockquote className="text-xl text-gray-700 text-center mb-8 leading-relaxed">
+            <blockquote className="text-xl text-gray-300 text-center mb-8 leading-relaxed">
               "{testimonials[currentIndex].quote}"
             </blockquote>
 
             <div className="flex items-center justify-center gap-4">
-              <div className="w-14 h-14 bg-[#3366FF] text-white rounded-full flex items-center justify-center font-bold text-lg">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                 {testimonials[currentIndex].avatar}
               </div>
               <div className="text-left">
-                <p className="font-semibold text-[#1E1E2F]">
+                <p className="font-semibold text-white">
                   {testimonials[currentIndex].name}
                 </p>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-400 text-sm">
                   {testimonials[currentIndex].company}
                 </p>
               </div>
@@ -89,14 +89,14 @@ export default function Testimonials() {
 
           <button
             onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#3366FF] hover:bg-[#3366FF] hover:text-white transition-all duration-200 transform hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-blue-400 hover:bg-blue-600 hover:text-white transition-all duration-200 transform hover:scale-110"
           >
             <ChevronLeft size={24} />
           </button>
 
           <button
             onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#3366FF] hover:bg-[#3366FF] hover:text-white transition-all duration-200 transform hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-gray-800 border border-gray-700 rounded-full shadow-lg flex items-center justify-center text-blue-400 hover:bg-blue-600 hover:text-white transition-all duration-200 transform hover:scale-110"
           >
             <ChevronRight size={24} />
           </button>
@@ -108,8 +108,8 @@ export default function Testimonials() {
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
                   index === currentIndex
-                    ? 'bg-[#3366FF] w-8'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? 'bg-blue-500 w-8'
+                    : 'bg-gray-700 hover:bg-gray-600'
                 }`}
               />
             ))}

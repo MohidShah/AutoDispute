@@ -6,52 +6,48 @@ export default function HowItWorks() {
       number: 1,
       Icon: Link,
       title: 'Connect Account',
-      description: 'Securely link Stripe or bank account',
+      description: 'Securely link Stripe or bank account in seconds',
     },
     {
       number: 2,
       Icon: CheckSquare,
       title: 'Select Transactions',
-      description: 'Auto-detect disputes and review',
+      description: 'Auto-detect disputes and review with AI assistance',
     },
     {
       number: 3,
       Icon: Send,
       title: 'Submit & Track',
-      description: 'Auto-generate evidence, submit, monitor outcomes',
+      description: 'Auto-generate evidence, submit, and monitor outcomes in real-time',
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F7FA]">
+    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-[#1E1E2F] mb-4">How It Works</h2>
-          <p className="text-xl text-gray-600">Three simple steps to get started</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">How It Works</h2>
+          <p className="text-xl text-gray-400">Three simple steps to get started</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="grid md:grid-cols-3 gap-8">
           {steps.map(({ number, Icon, title, description }, index) => (
             <div key={number} className="relative">
-              <div
-                className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
-              >
-                <div className="flex items-center justify-center w-16 h-16 bg-[#3366FF] text-white text-2xl font-bold rounded-full mb-6 mx-auto">
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 text-white text-2xl font-bold rounded-xl mb-6 mx-auto">
                   {number}
                 </div>
                 <div className="flex items-center justify-center mb-6">
-                  <Icon size={48} className="text-[#28C76F]" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border border-blue-500/30 rounded-xl flex items-center justify-center">
+                    <Icon size={32} className="text-blue-400" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-[#1E1E2F] mb-3 text-center">
-                  {title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-center">
-                  {description}
-                </p>
+                <h3 className="text-xl font-bold text-white mb-3 text-center">{title}</h3>
+                <p className="text-gray-400 leading-relaxed text-center">{description}</p>
               </div>
 
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-[#E0E6ED]"></div>
+                <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600"></div>
               )}
             </div>
           ))}

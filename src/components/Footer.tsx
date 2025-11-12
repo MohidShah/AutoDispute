@@ -1,6 +1,10 @@
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
-export default function Footer() {
+interface FooterProps {
+  onNavigate: (page: string) => void;
+}
+
+export default function Footer({ onNavigate }: FooterProps) {
   const footerLinks = {
     product: [
       { name: 'Dashboard', href: '#dashboard' },
@@ -27,13 +31,18 @@ export default function Footer() {
     { Icon: Mail, href: '#', label: 'Email' },
   ];
 
+  const handleNavClick = (page: string) => {
+    onNavigate(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="bg-[#1E1E2F] text-[#F5F7FA] pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#0A0D14] border-t border-gray-900 text-gray-400 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4">AutoDispute</h3>
-            <p className="text-gray-400 leading-relaxed mb-6 max-w-sm">
+            <h3 className="text-2xl font-bold mb-4 text-white">AutoDispute</h3>
+            <p className="text-gray-500 leading-relaxed mb-6 max-w-sm">
               Automated dispute management for modern businesses. Save time, recover more,
               and stay organized with AI-powered tools.
             </p>
@@ -43,7 +52,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[#3366FF] transition-colors duration-200"
+                  className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors duration-200"
                 >
                   <Icon size={20} />
                 </a>
@@ -52,60 +61,60 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Product</h4>
+            <h4 className="font-semibold text-lg mb-4 text-white">Product</h4>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-[#3366FF] transition-colors duration-200"
+                  <button
+                    onClick={() => handleNavClick(link.href.replace('#', ''))}
+                    className="text-gray-500 hover:text-blue-400 transition-colors duration-200 text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Company</h4>
+            <h4 className="font-semibold text-lg mb-4 text-white">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-[#3366FF] transition-colors duration-200"
+                  <button
+                    onClick={() => handleNavClick(link.href.replace('#', ''))}
+                    className="text-gray-500 hover:text-blue-400 transition-colors duration-200 text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Legal</h4>
+            <h4 className="font-semibold text-lg mb-4 text-white">Legal</h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-[#3366FF] transition-colors duration-200"
+                  <button
+                    onClick={() => handleNavClick(link.href.replace('#', ''))}
+                    className="text-gray-500 hover:text-blue-400 transition-colors duration-200 text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8">
+        <div className="border-t border-gray-900 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-500 text-sm">
               © 2025 AutoDispute. All rights reserved.
             </p>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-500 text-sm">
               Made with care for businesses everywhere
             </p>
           </div>

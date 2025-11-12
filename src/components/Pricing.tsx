@@ -6,10 +6,10 @@ export default function Pricing() {
       name: 'Starter',
       price: 19,
       features: [
-        'Up to 5 disputes',
-        'Basic reporting',
+        'Up to 5 disputes per month',
+        'Basic reporting and analytics',
         'Email support',
-        'Secure integration',
+        'Secure payment integration',
       ],
       popular: false,
     },
@@ -17,10 +17,10 @@ export default function Pricing() {
       name: 'Growth',
       price: 39,
       features: [
-        'Up to 20 disputes',
-        'Advanced analytics',
-        'Custom templates',
-        'Priority support',
+        'Up to 20 disputes per month',
+        'Advanced analytics dashboard',
+        'Custom dispute templates',
+        'Priority email support',
       ],
       popular: true,
     },
@@ -29,8 +29,8 @@ export default function Pricing() {
       price: 49,
       features: [
         'Unlimited disputes',
-        'Advanced analytics',
-        'Priority support',
+        'Advanced analytics & reports',
+        'Priority support 24/7',
         'Dedicated account manager',
       ],
       popular: false,
@@ -38,51 +38,53 @@ export default function Pricing() {
   ];
 
   return (
-    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-[#1E1E2F] mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-xl text-gray-600">Choose the plan that fits your needs</p>
+          <p className="text-xl text-gray-400">Choose the plan that fits your needs</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map(({ name, price, features, popular }) => (
             <div
               key={name}
-              className={`bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 p-8 ${
-                popular ? 'border-2 border-[#28C76F] relative' : 'border border-gray-200'
+              className={`bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border transition-all duration-300 transform hover:-translate-y-2 ${
+                popular
+                  ? 'border-blue-500 relative shadow-xl shadow-blue-500/20'
+                  : 'border-gray-800 hover:border-gray-700'
               }`}
             >
               {popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#28C76F] text-white text-sm font-semibold rounded-full">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-semibold rounded-full">
                   Most Popular
                 </div>
               )}
 
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-[#1E1E2F] mb-4">{name}</h3>
+                <h3 className="text-2xl font-bold text-white mb-4">{name}</h3>
                 <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-5xl font-bold text-[#1E1E2F]">${price}</span>
-                  <span className="text-gray-600">/mo</span>
+                  <span className="text-5xl font-bold text-white">${price}</span>
+                  <span className="text-gray-400">/mo</span>
                 </div>
               </div>
 
               <ul className="space-y-4 mb-8">
                 {features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className="text-[#28C76F] flex-shrink-0 mt-1" size={20} />
-                    <span className="text-gray-700">{feature}</span>
+                    <Check className="text-blue-400 flex-shrink-0 mt-1" size={20} />
+                    <span className="text-gray-400">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <button
-                className={`w-full py-3 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 ${
+                className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 transform hover:-translate-y-0.5 ${
                   popular
-                    ? 'bg-[#3366FF] text-white hover:bg-[#28C76F] shadow-lg'
-                    : 'bg-white text-[#3366FF] border-2 border-[#3366FF] hover:bg-[#3366FF] hover:text-white'
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:from-blue-700 hover:to-cyan-700 shadow-lg'
+                    : 'bg-gray-800 text-white border border-gray-700 hover:bg-gray-700'
                 }`}
               >
                 Get Started
@@ -91,7 +93,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        <p className="text-center text-gray-600 text-sm mt-12">
+        <p className="text-center text-gray-500 text-sm mt-12">
           All plans include secure bank integration and AI-assisted dispute support
         </p>
       </div>

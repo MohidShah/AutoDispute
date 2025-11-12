@@ -5,33 +5,45 @@ export default function Pricing() {
     {
       name: 'Starter',
       price: 19,
+      description: 'Perfect for small businesses getting started',
       features: [
         'Up to 5 disputes per month',
         'Basic reporting and analytics',
-        'Email support',
+        'Email support (24hr response)',
         'Secure payment integration',
+        'AI-powered evidence generation',
+        'Mobile app access',
       ],
       popular: false,
     },
     {
       name: 'Growth',
       price: 39,
+      description: 'Best for growing businesses',
       features: [
         'Up to 20 disputes per month',
         'Advanced analytics dashboard',
         'Custom dispute templates',
-        'Priority email support',
+        'Priority email support (4hr response)',
+        'Bulk dispute management',
+        'API access',
+        'Export reports (PDF/CSV)',
       ],
       popular: true,
     },
     {
       name: 'Pro',
       price: 49,
+      description: 'For high-volume businesses',
       features: [
         'Unlimited disputes',
         'Advanced analytics & reports',
-        'Priority support 24/7',
+        'Priority support 24/7 (1hr response)',
         'Dedicated account manager',
+        'Custom integrations',
+        'White-label options',
+        'Training sessions included',
+        'SLA guarantee',
       ],
       popular: false,
     },
@@ -64,7 +76,8 @@ export default function Pricing() {
               )}
 
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-4">{name}</h3>
+                <h3 className="text-2xl font-bold text-white mb-2">{name}</h3>
+                <p className="text-gray-400 text-sm mb-4">{description}</p>
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-5xl font-bold text-white">${price}</span>
                   <span className="text-gray-400">/mo</span>

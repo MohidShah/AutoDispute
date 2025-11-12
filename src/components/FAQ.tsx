@@ -8,27 +8,52 @@ export default function FAQ() {
     {
       question: 'How secure is AutoDispute?',
       answer:
-        'AutoDispute uses bank-level encryption (256-bit SSL) and complies with PCI-DSS standards. We never store your banking credentials directly - all connections are made through secure APIs with read-only access. Your data is encrypted both in transit and at rest.',
+        'AutoDispute uses bank-level encryption (256-bit SSL) and complies with PCI-DSS standards. We never store your banking credentials directly - all connections are made through secure APIs with read-only access. Your data is encrypted both in transit and at rest. We are SOC 2 Type II certified and undergo regular third-party security audits.',
     },
     {
       question: 'Which payment processors are supported?',
       answer:
-        'Currently, we support Stripe, PayPal, and direct bank account connections through Plaid. We are constantly adding new integrations. If you need a specific processor, please reach out to our team.',
+        'Currently, we support Stripe, PayPal, and direct bank account connections through Plaid. We are constantly adding new integrations including Square, Braintree, and Authorize.net. If you need a specific processor, please reach out to our team and we can prioritize it.',
     },
     {
       question: 'Can I try before subscribing?',
       answer:
-        'Yes! We offer a 14-day free trial with no credit card required. You can test all features and process up to 3 disputes during the trial period. Cancel anytime with no questions asked.',
+        'Yes! We offer a 14-day free trial with no credit card required. You can test all features and process up to 3 disputes during the trial period. Cancel anytime with no questions asked. If you need more time to evaluate, contact our sales team for an extended trial.',
     },
     {
       question: 'What types of disputes can AutoDispute handle?',
       answer:
-        'AutoDispute can handle various dispute types including unauthorized transactions, duplicate charges, service not received, product not as described, and billing errors. Our AI assists with evidence gathering and submission for each type.',
+        'AutoDispute can handle various dispute types including unauthorized transactions, duplicate charges, service not received, product not as described, billing errors, subscription cancellation issues, and quality disputes. Our AI assists with evidence gathering and submission for each type, automatically selecting the best dispute reason codes.',
     },
     {
       question: 'How long does it take to see results?',
       answer:
-        'Most disputes are submitted within minutes of selection. Resolution times vary by payment processor and dispute type, typically ranging from 7-90 days. You can track all disputes in real-time through your dashboard.',
+        'Most disputes are submitted within minutes of selection. Resolution times vary by payment processor and dispute type, typically ranging from 7-90 days. The average resolution time is 18 days. You can track all disputes in real-time through your dashboard with automatic status updates.',
+    },
+    {
+      question: 'What is your dispute win rate?',
+      answer:
+        'Our platform achieves an average win rate of 62.7%, which is 35% higher than manual dispute management. The actual win rate depends on factors like dispute type, evidence quality, and merchant response. Our AI continuously learns from successful cases to improve outcomes.',
+    },
+    {
+      question: 'Can I cancel my subscription anytime?',
+      answer:
+        'Yes, you can cancel your subscription at any time from your account settings. There are no cancellation fees or long-term contracts. If you cancel, you will retain access to your account until the end of your current billing period.',
+    },
+    {
+      question: 'Do you offer refunds?',
+      answer:
+        'We offer a 30-day money-back guarantee if you are not satisfied with our service. Simply contact our support team within 30 days of your first payment for a full refund. After 30 days, subscription fees are non-refundable but you can cancel anytime.',
+    },
+    {
+      question: 'How does AI improve dispute success rates?',
+      answer:
+        'Our AI analyzes thousands of successful dispute cases to identify winning patterns. It automatically generates compelling evidence packages, selects optimal dispute reason codes, determines the best submission timing, and learns from each case to continuously improve. This data-driven approach significantly increases win rates.',
+    },
+    {
+      question: 'Is there a limit on dispute amounts?',
+      answer:
+        'No, there is no limit on individual dispute amounts. Whether you are disputing $10 or $10,000, our platform handles all dispute sizes equally. Your plan limits refer to the number of disputes you can submit per month, not the total dollar amount.',
     },
   ];
 
@@ -69,7 +94,7 @@ export default function FAQ() {
 
               <div
                 className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
+                  openIndex === index ? 'max-h-[500px]' : 'max-h-0'
                 }`}
               >
                 <div className="px-8 pb-6 text-gray-400 leading-relaxed">

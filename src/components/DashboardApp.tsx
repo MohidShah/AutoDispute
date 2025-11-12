@@ -17,7 +17,7 @@ import DisputeDetail from './DisputeDetail';
 import NewDisputeWizard from './NewDisputeWizard';
 import BankConnectionModal from './BankConnectionModal';
 
-export default function DashboardApp() {
+export default function DashboardApp({ onLogout }: { onLogout: () => void }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'dashboard' | 'analytics' | 'settings'>(
@@ -99,6 +99,7 @@ export default function DashboardApp() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           setSelectedDispute={setSelectedDispute}
+          onLogout={onLogout}
         />
         <DisputeDetail dispute={selectedDispute} onBack={() => setSelectedDispute(null)} />
       </div>
@@ -114,6 +115,7 @@ export default function DashboardApp() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           setSelectedDispute={setSelectedDispute}
+          onLogout={onLogout}
         />
         <Analytics />
       </div>
@@ -129,6 +131,7 @@ export default function DashboardApp() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           setSelectedDispute={setSelectedDispute}
+          onLogout={onLogout}
         />
         <SettingsComponent />
       </div>
@@ -143,6 +146,7 @@ export default function DashboardApp() {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         setSelectedDispute={setSelectedDispute}
+        onLogout={onLogout}
       />
 
       <main className="flex-1 overflow-auto">
@@ -332,7 +336,7 @@ export default function DashboardApp() {
       </button>
 
       {showNewDisputeWizard && (
-        <NewDisputeWizard />
+        <NewDisputeWizard onClose={() => setShowNewDisputeWizard(false)} />
       )}
 
       {showBankConnection && (
@@ -348,13 +352,34 @@ function SidebarNav({
   currentPage,
   setCurrentPage,
   setSelectedDispute,
+  onLogout,
 }: {
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
   currentPage: string;
   setCurrentPage: (page: 'dashboard' | 'analytics' | 'settings') => void;
   setSelectedDispute: (dispute: null) => void;
+  onLogout: () => void;
 }) {
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleLogout = () => {
+    setShowLogoutConfirm(false);
+    onLogout();
+  };
   return (
     <aside
       className={`bg-white border-r border-gray-200 transition-all duration-300 ${
@@ -402,18 +427,133 @@ function SidebarNav({
         ))}
       </nav>
 
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <div className="w-10 h-10 bg-[#3366FF] rounded-full flex items-center justify-center text-white font-semibold">
-            JD
+      <div className="p-4 border-t border-gray-200 relative">
+        <button
+          onClick={() => setShowProfileMenu(!showProfileMenu)}
+          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <div className="w-10 h-10 bg-[#3366FF] rounded-full flex items-center justify-center text-white font-semibold overflow-hidden relative group">
+            {profileImage ? (
+              <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              'JD'
+            )}
+            <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <span className="text-xs text-white">Edit</span>
+            </label>
           </div>
           {sidebarOpen && (
-            <div>
+            <div className="flex-1 text-left">
               <p className="font-medium text-[#1E1E2F] text-sm">John Doe</p>
               <p className="text-gray-600 text-xs">john@example.com</p>
             </div>
           )}
-        </div>
+        </button>
+
+        {showProfileMenu && (
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setShowProfileMenu(false)}
+            ></div>
+            <div className="absolute bottom-full left-4 right-4 mb-2 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden">
+              <div className="p-4 border-b border-gray-200">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 bg-[#3366FF] rounded-full flex items-center justify-center text-white font-semibold overflow-hidden">
+                    {profileImage ? (
+                      <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      'JD'
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#1E1E2F]">John Doe</p>
+                    <p className="text-xs text-gray-600">john@example.com</p>
+                  </div>
+                </div>
+                <label className="block w-full px-4 py-2 text-sm text-center bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  Change Profile Picture
+                </label>
+              </div>
+              <div className="py-2">
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    setCurrentPage('settings');
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Profile Settings
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    setCurrentPage('settings');
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Account Settings
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Help & Support
+                </button>
+              </div>
+              <div className="border-t border-gray-200 py-2">
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    setShowLogoutConfirm(true);
+                  }}
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 transition-colors font-medium"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+              <h3 className="text-xl font-bold text-[#1E1E2F] mb-2">Sign Out</h3>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to sign out of your account?
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </aside>
   );

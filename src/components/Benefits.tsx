@@ -5,25 +5,29 @@ export default function Benefits() {
     {
       Icon: Clock,
       title: 'Save Time',
-      description: 'Auto-fill and submit disputes in seconds',
+      description: 'Automate dispute submissions in seconds instead of spending hours on manual paperwork. Our AI handles evidence collection, form filling, and submission tracking.',
+      stats: '90% faster processing',
       color: 'from-blue-600 to-blue-400',
     },
     {
       Icon: TrendingUp,
       title: 'Recover More',
-      description: 'Increase dispute success rate with AI assistance',
+      description: 'Increase your dispute win rate by 35% with AI-powered evidence analysis and optimal submission timing. Smart algorithms identify the strongest case strategies.',
+      stats: '35% higher win rate',
       color: 'from-cyan-600 to-cyan-400',
     },
     {
       Icon: Layout,
       title: 'Stay Organized',
-      description: 'Track all disputes in one unified dashboard',
+      description: 'Track all disputes across multiple payment processors in one unified dashboard. Real-time status updates, automated notifications, and comprehensive reporting.',
+      stats: 'All processors in one place',
       color: 'from-blue-600 to-blue-400',
     },
     {
       Icon: Shield,
       title: 'Secure & Trusted',
-      description: 'Bank-level encryption and data security',
+      description: 'Bank-level 256-bit encryption, PCI-DSS compliance, and SOC 2 certified. Your financial data is protected with industry-leading security measures.',
+      stats: 'Enterprise-grade security',
       color: 'from-cyan-600 to-cyan-400',
     },
   ];
@@ -41,7 +45,7 @@ export default function Benefits() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {benefits.map(({ Icon, title, description, color }) => (
+          {benefits.map(({ Icon, title, description, stats, color }) => (
             <div
               key={title}
               className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-gray-800 hover:border-blue-500/50 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
@@ -52,7 +56,10 @@ export default function Benefits() {
                 <Icon size={32} className="text-white" />
               </div>
               <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-              <p className="text-gray-400 leading-relaxed">{description}</p>
+              <p className="text-gray-400 leading-relaxed mb-4">{description}</p>
+              <div className="pt-4 border-t border-gray-700">
+                <p className="text-sm text-blue-400 font-semibold">{stats}</p>
+              </div>
             </div>
           ))}
         </div>

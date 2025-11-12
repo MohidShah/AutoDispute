@@ -9,7 +9,7 @@ import {
   X,
 } from 'lucide-react';
 
-export default function NewDisputeWizard() {
+export default function NewDisputeWizard({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     transaction: '',
@@ -87,6 +87,9 @@ export default function NewDisputeWizard() {
     console.log('Submitting dispute:', formData);
     setStep(1);
     setFormData({ transaction: '', reason: '', evidence: '', attachments: [] });
+    setTimeout(() => {
+      onClose();
+    }, 500);
   };
 
   return (
@@ -94,7 +97,7 @@ export default function NewDisputeWizard() {
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-[#1E1E2F]">Start a Dispute</h2>
-          <button className="text-gray-500 hover:text-gray-700">
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X size={24} />
           </button>
         </div>

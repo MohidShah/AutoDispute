@@ -1,23 +1,31 @@
 import { useState } from 'react';
-import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { Mail, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface ForgotPasswordPageProps {
   onNavigate: (page: string) => void;
 }
 
 export default function ForgotPasswordPage({ onNavigate }: ForgotPasswordPageProps) {
+  const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      await resetPassword(email);
       setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message || 'Failed to send reset email. Please try again.');
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -43,6 +51,13 @@ export default function ForgotPasswordPage({ onNavigate }: ForgotPasswordPagePro
         </div>
 
         <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-gray-800 p-8 shadow-2xl">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500 rounded-lg p-4 flex items-start gap-3 mb-6">
+              <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+              <p className="text-red-500 text-sm">{error}</p>
+            </div>
+          )}
+
           {submitted ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">

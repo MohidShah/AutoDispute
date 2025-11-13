@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { X, Lock, CheckCircle2, AlertCircle, Shield } from 'lucide-react';
+import { createStripeConnection } from '../services/stripeService';
 
 export default function BankConnectionModal({ onClose }: { onClose: () => void }) {
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [accountType, setAccountType] = useState<'stripe' | 'bank' | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<'idle' | 'connecting' | 'success' | 'error'>('idle');
+  const [accountName, setAccountName] = useState('');
+  const [error, setError] = useState('');
 
   const accountOptions = [
     {
@@ -21,13 +26,39 @@ export default function BankConnectionModal({ onClose }: { onClose: () => void }
     },
   ];
 
+  const handleConnectStripe = () => {
+    if (!accountName.trim()) {
+      setError('Please enter an account name');
+      return;
+    }
+
+    const state = Math.random().toString(36).substring(7);
+    sessionStorage.setItem('stripe_auth_state', state);
+    sessionStorage.setItem('stripe_account_name', accountName);
+
+    const stripeUrl = new URL('https://connect.stripe.com/oauth/authorize');
+    const stripeClientId = import.meta.env.VITE_STRIPE_CLIENT_ID;
+
+    stripeUrl.searchParams.set('client_id', stripeClientId);
+    stripeUrl.searchParams.set('response_type', 'code');
+    stripeUrl.searchParams.set('scope', 'read_write');
+    stripeUrl.searchParams.set('redirect_uri', `${window.location.origin}/stripe-callback`);
+    stripeUrl.searchParams.set('state', state);
+
+    window.location.href = stripeUrl.toString();
+  };
+
   const handleConnect = async () => {
-    setConnectionStatus('connecting');
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setConnectionStatus('success');
-    setTimeout(() => {
-      onClose();
-    }, 1500);
+    if (accountType === 'stripe') {
+      handleConnectStripe();
+    } else {
+      setConnectionStatus('connecting');
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setConnectionStatus('success');
+      setTimeout(() => {
+        onClose();
+      }, 1500);
+    }
   };
 
   return (
@@ -133,8 +164,19 @@ export default function BankConnectionModal({ onClose }: { onClose: () => void }
                   )}
 
                   <div className="space-y-3">
+                    {error && (
+                      <div className="bg-red-500/10 border border-red-500 rounded-lg p-3 flex items-start gap-2">
+                        <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={18} />
+                        <p className="text-red-500 text-sm">{error}</p>
+                      </div>
+                    )}
                     <input
                       type="text"
+                      value={accountName}
+                      onChange={(e) => {
+                        setAccountName(e.target.value);
+                        setError('');
+                      }}
                       placeholder={
                         accountType === 'stripe'
                           ? 'Enter account name (e.g., Main Account)'

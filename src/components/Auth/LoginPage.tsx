@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 interface LoginPageProps {
   onNavigate: (page: string) => void;
-  onLogin: () => void;
 }
 
-export default function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
+export default function LoginPage({ onNavigate }: LoginPageProps) {
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,14 +19,13 @@ export default function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
     setError('');
     setLoading(true);
 
-    setTimeout(() => {
-      if (email && password) {
-        onLogin();
-      } else {
-        setError('Please enter your email and password');
-        setLoading(false);
-      }
-    }, 1000);
+    try {
+      await signIn(email, password);
+      onNavigate('dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign in. Please check your credentials.');
+      setLoading(false);
+    }
   };
 
   return (

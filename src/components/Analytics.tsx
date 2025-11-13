@@ -1,34 +1,55 @@
+import { useEffect, useState } from 'react';
 import { Download, TrendingUp, Clock, Target, BarChart3 } from 'lucide-react';
+import { getDisputeStats } from '../services/disputeService';
 
 export default function Analytics() {
+  const [stats, setStats] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  const loadStats = async () => {
+    try {
+      setIsLoading(true);
+      const statsData = await getDisputeStats();
+      setStats(statsData);
+    } catch (error) {
+      console.error('Failed to load analytics:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const metrics = [
     {
       label: 'Total Recovered',
-      value: '$47,320',
+      value: `$${(stats?.recoveredAmount || 0).toFixed(2)}`,
       icon: TrendingUp,
       color: '#28C76F',
-      trend: '+12% from last month',
+      trend: `${stats?.won || 0} disputes won`,
     },
     {
       label: 'Win Rate',
-      value: '62.7%',
+      value: `${stats?.winRate || 0}%`,
       icon: Target,
       color: '#3366FF',
-      trend: '+5.2% from last month',
+      trend: `${stats?.won || 0} of ${stats?.total || 0} disputes`,
     },
     {
-      label: 'Avg. Resolution Time',
-      value: '18 days',
-      icon: Clock,
-      color: '#FFA94D',
-      trend: '-2 days from last month',
-    },
-    {
-      label: 'Active Disputes',
-      value: '32',
+      label: 'Total Disputes',
+      value: (stats?.total || 0).toString(),
       icon: BarChart3,
+      color: '#FFA94D',
+      trend: `${stats?.pending || 0} pending`,
+    },
+    {
+      label: 'Lost Disputes',
+      value: (stats?.lost || 0).toString(),
+      icon: Clock,
       color: '#FF6B6B',
-      trend: '+8 this month',
+      trend: 'Review and improve evidence',
     },
   ];
 

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import {
   LayoutDashboard,
   BarChart3,
@@ -10,14 +11,80 @@ import {
   Filter,
   Download,
   AlertCircle,
+  LogOut,
 } from 'lucide-react';
+import { getDisputes, getDisputeStats } from '../services/disputeService';
 import Analytics from './Analytics';
 import SettingsComponent from './Settings';
 import DisputeDetail from './DisputeDetail';
 import NewDisputeWizard from './NewDisputeWizard';
 import BankConnectionModal from './BankConnectionModal';
 
-export default function DashboardApp({ onLogout }: { onLogout: () => void }) {
+interface DashboardAppProps {
+  onLogout: () => void;
+  onNavigate: (page: string) => void;
+}
+
+export default function DashboardApp({ onLogout, onNavigate }: DashboardAppProps) {
+  const { user, signOut } = useAuth();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const [disputes, setDisputes] = useState<any[]>([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    won: 0,
+    lost: 0,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadDisputesData();
+  }, [user]);
+
+  const loadDisputesData = async () => {
+    try {
+      setIsLoading(true);
+      const [disputesData, statsData] = await Promise.all([
+        getDisputes(),
+        getDisputeStats(),
+      ]);
+
+      const formattedDisputes = disputesData.map((d) => ({
+        id: d.id,
+        date: new Date(d.created_at).toISOString().split('T')[0],
+        merchant: d.merchant_name || 'Unknown',
+        amount: `$${d.amount.toFixed(2)}`,
+        status: d.status.includes('won') ? 'won' : d.status.includes('lost') ? 'lost' : 'pending',
+        reason: d.reason,
+      }));
+
+      setDisputes(formattedDisputes);
+      setStats({
+        total: statsData.total,
+        pending: statsData.pending,
+        won: statsData.won,
+        lost: statsData.lost,
+      });
+    } catch (error) {
+      console.error('Failed to load disputes:', error);
+      setDisputes([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    setIsSigningOut(true);
+    try {
+      await signOut();
+      onLogout();
+      onNavigate('home');
+    } catch (err) {
+      console.error('Logout error:', err);
+      setIsSigningOut(false);
+    }
+  };
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'dashboard' | 'analytics' | 'settings'>(
@@ -28,54 +95,11 @@ export default function DashboardApp({ onLogout }: { onLogout: () => void }) {
   const [showBankConnection, setShowBankConnection] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const disputes = [
-    {
-      id: 1,
-      date: '2025-11-10',
-      merchant: 'Acme Corp',
-      amount: '$245.00',
-      status: 'pending',
-      reason: 'Unauthorized charge',
-    },
-    {
-      id: 2,
-      date: '2025-11-09',
-      merchant: 'Tech Solutions',
-      amount: '$89.99',
-      status: 'won',
-      reason: 'Service not received',
-    },
-    {
-      id: 3,
-      date: '2025-11-08',
-      merchant: 'Digital Services',
-      amount: '$156.50',
-      status: 'pending',
-      reason: 'Duplicate charge',
-    },
-    {
-      id: 4,
-      date: '2025-11-07',
-      merchant: 'Cloud Hosting',
-      amount: '$299.00',
-      status: 'lost',
-      reason: 'Product not as described',
-    },
-    {
-      id: 5,
-      date: '2025-11-06',
-      merchant: 'Software Inc',
-      amount: '$49.99',
-      status: 'won',
-      reason: 'Billing error',
-    },
-  ];
-
-  const stats = [
-    { label: 'Total Disputes', value: '142', color: '#3366FF' },
-    { label: 'Pending', value: '32', color: '#FFA94D' },
-    { label: 'Won', value: '89', color: '#28C76F' },
-    { label: 'Lost', value: '21', color: '#FF6B6B' },
+  const dashboardStats = [
+    { label: 'Total Disputes', value: stats.total.toString(), color: '#3366FF' },
+    { label: 'Pending', value: stats.pending.toString(), color: '#FFA94D' },
+    { label: 'Won', value: stats.won.toString(), color: '#28C76F' },
+    { label: 'Lost', value: stats.lost.toString(), color: '#FF6B6B' },
   ];
 
   const statusColors: { [key: string]: string } = {
@@ -163,7 +187,7 @@ export default function DashboardApp({ onLogout }: { onLogout: () => void }) {
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 mb-8">
-            {stats.map(({ label, value, color }) => (
+            {dashboardStats.map(({ label, value, color }) => (
               <div
                 key={label}
                 className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"

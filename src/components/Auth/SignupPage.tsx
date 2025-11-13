@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, User, Building } from 'lucide-react';
 
 interface SignupPageProps {
   onNavigate: (page: string) => void;
-  onSignup: () => void;
 }
 
-export default function SignupPage({ onNavigate, onSignup }: SignupPageProps) {
+export default function SignupPage({ onNavigate }: SignupPageProps) {
+  const { signUp } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -19,6 +20,7 @@ export default function SignupPage({ onNavigate, onSignup }: SignupPageProps) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,16 +41,23 @@ export default function SignupPage({ onNavigate, onSignup }: SignupPageProps) {
       return;
     }
 
+    if (!formData.email || !formData.password || !formData.fullName) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
     setLoading(true);
 
-    setTimeout(() => {
-      if (formData.email && formData.password && formData.fullName) {
-        onSignup();
-      } else {
-        setError('Please fill in all required fields');
-        setLoading(false);
-      }
-    }, 1000);
+    try {
+      await signUp(formData.email, formData.password);
+      setSuccess(true);
+      setTimeout(() => {
+        onNavigate('login');
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign up. Please try again.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,6 +80,13 @@ export default function SignupPage({ onNavigate, onSignup }: SignupPageProps) {
 
         <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-gray-800 p-8 shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {success && (
+              <div className="bg-green-500/10 border border-green-500 rounded-lg p-4 flex items-start gap-3">
+                <AlertCircle className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
+                <p className="text-green-500 text-sm">Account created successfully! Redirecting to login...</p>
+              </div>
+            )}
+
             {error && (
               <div className="bg-red-500/10 border border-red-500 rounded-lg p-4 flex items-start gap-3">
                 <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />

@@ -16,64 +16,76 @@ import Privacy from './Privacy';
 import Terms from './Terms';
 import Security from './Security';
 
-export default function LandingPage() {
+interface LandingPageProps {
+  onNavigate: (page: string) => void;
+}
+
+export default function LandingPage({ onNavigate }: LandingPageProps) {
   const [currentPage, setCurrentPage] = useState('home');
+
+  const handleNavigate = (page: string) => {
+    if (page === 'login' || page === 'signup' || page === 'forgot-password' || page === 'dashboard') {
+      onNavigate(page);
+    } else {
+      setCurrentPage(page);
+    }
+  };
 
   const renderPage = () => {
     switch (currentPage) {
       case 'about':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <About />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'contact':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Contact />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'blog':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Blog />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'privacy':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Privacy />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'terms':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Terms />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'security':
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Security />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
       case 'home':
       default:
         return (
           <>
-            <Header onNavigate={setCurrentPage} />
+            <Header onNavigate={handleNavigate} />
             <Hero />
             <Partners />
             <Benefits />
@@ -82,7 +94,7 @@ export default function LandingPage() {
             <Testimonials />
             <FAQ />
             <CTA />
-            <Footer onNavigate={setCurrentPage} />
+            <Footer onNavigate={handleNavigate} />
           </>
         );
     }

@@ -52,7 +52,7 @@ export default function DashboardApp({ onLogout, onNavigate }: DashboardAppProps
       const formattedDisputes = disputesData.map((d) => ({
         id: d.id,
         date: new Date(d.created_at).toISOString().split('T')[0],
-        merchant: d.merchant_name || 'Unknown',
+        merchant: 'Unknown',
         amount: `$${d.amount.toFixed(2)}`,
         status: d.status.includes('won') ? 'won' : d.status.includes('lost') ? 'lost' : 'pending',
         reason: d.reason,

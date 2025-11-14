@@ -60,7 +60,7 @@ export default function Pricing() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {plans.map(({ name, price, features, popular }) => (
+          {plans.map(({ name, price, description, features, popular }) => (
             <div
               key={name}
               className={`bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 border transition-all duration-300 transform hover:-translate-y-2 ${

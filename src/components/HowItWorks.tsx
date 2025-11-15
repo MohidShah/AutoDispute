@@ -26,7 +26,11 @@ export default function HowItWorks() {
   ];
 
   return (
+<<<<<<< HEAD
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
+=======
+    <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">How It Works</h2>
@@ -61,4 +65,8 @@ export default function HowItWorks() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714

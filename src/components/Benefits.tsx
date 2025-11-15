@@ -33,7 +33,11 @@ export default function Benefits() {
   ];
 
   return (
+<<<<<<< HEAD
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
+=======
+    <section id="benefits" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0D14]">
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -66,4 +70,8 @@ export default function Benefits() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714

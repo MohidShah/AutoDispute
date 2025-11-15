@@ -26,9 +26,12 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
   const handleNavigate = (page: string) => {
     if (page === 'login' || page === 'signup' || page === 'forgot-password' || page === 'dashboard') {
       onNavigate(page);
+<<<<<<< HEAD
     } else if (page === 'benefits-page' || page === 'how-it-works-page' || page === 'pricing-page') {
       // Navigate to the separate pages
       onNavigate(page);
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     } else {
       setCurrentPage(page);
     }
@@ -104,4 +107,8 @@ export default function LandingPage({ onNavigate }: LandingPageProps) {
   };
 
   return <div className="min-h-screen bg-[#0A0D14]">{renderPage()}</div>;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714

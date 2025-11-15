@@ -16,9 +16,15 @@ export default function Header({ onNavigate }: HeaderProps) {
   }
 
   const navLinks = [
+<<<<<<< HEAD
     { label: 'Benefits', id: 'benefits-page' },
     { label: 'How It Works', id: 'how-it-works-page' },
     { label: 'Pricing', id: 'pricing-page' },
+=======
+    { label: 'Benefits', id: 'benefits' },
+    { label: 'How It Works', id: 'how-it-works' },
+    { label: 'Pricing', id: 'pricing' },
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     { label: 'About', id: 'about' },
     { label: 'Blog', id: 'blog' },
     { label: 'Contact', id: 'contact' },
@@ -27,9 +33,12 @@ export default function Header({ onNavigate }: HeaderProps) {
   const handleNavClick = (id: string) => {
     if (['about', 'blog', 'contact', 'privacy', 'terms', 'security'].includes(id)) {
       onNavigate(id);
+<<<<<<< HEAD
     } else if (['benefits-page', 'how-it-works-page', 'pricing-page'].includes(id)) {
       // Navigate to the separate pages
       onNavigate(id);
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     } else {
       onNavigate('home');
       setTimeout(() => {
@@ -69,6 +78,7 @@ export default function Header({ onNavigate }: HeaderProps) {
             ))}
           </nav>
 
+<<<<<<< HEAD
           <div className="hidden lg:flex items-center space-x-4">
             <button 
               onClick={() => onNavigate('login')}
@@ -80,6 +90,10 @@ export default function Header({ onNavigate }: HeaderProps) {
               onClick={() => onNavigate('signup')}
               className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg"
             >
+=======
+          <div className="hidden lg:block">
+            <button className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 shadow-lg">
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
               Start Free Trial
             </button>
           </div>
@@ -105,6 +119,7 @@ export default function Header({ onNavigate }: HeaderProps) {
                 {link.label}
               </button>
             ))}
+<<<<<<< HEAD
             <div className="pt-4 border-t border-gray-700 space-y-3">
               <button 
                 onClick={() => onNavigate('login')}
@@ -119,9 +134,18 @@ export default function Header({ onNavigate }: HeaderProps) {
                 Start Free Trial
               </button>
             </div>
+=======
+            <button className="w-full px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-cyan-700 transition-colors duration-200 mt-4">
+              Start Free Trial
+            </button>
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
           </div>
         </div>
       )}
     </header>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714

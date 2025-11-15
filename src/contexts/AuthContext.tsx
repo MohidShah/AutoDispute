@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, AuthChangeEvent } from '@supabase/supabase-js';
+<<<<<<< HEAD
 
 let supabase: any = null;
 
@@ -21,6 +22,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Failed to initialize Supabase client:', error);
   }
 }
+=======
+import { supabase } from '../lib/supabase';
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
 
 interface AuthContextType {
   user: User | null;
@@ -41,6 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+<<<<<<< HEAD
     // If supabase is not initialized, set loading to false and exit
     if (!supabase) {
       setIsLoading(false);
@@ -62,13 +67,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (mounted) {
           setIsLoading(false);
         }
+=======
+    let mounted = true;
+
+    async function getSession() {
+      const { data } = await supabase.auth.getSession();
+      if (mounted) {
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+        setIsLoading(false);
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
       }
     }
 
     getSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
+<<<<<<< HEAD
       (_event: AuthChangeEvent, session: any) => {
+=======
+      (_event: AuthChangeEvent, session) => {
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
         if (mounted) {
           setSession(session);
           setUser(session?.user ?? null);
@@ -79,17 +98,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       mounted = false;
+<<<<<<< HEAD
       if (subscription?.unsubscribe) {
         subscription.unsubscribe();
       }
+=======
+      subscription?.unsubscribe();
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     };
   }, []);
 
   const signUp = async (email: string, password: string) => {
+<<<<<<< HEAD
     if (!supabase) {
       throw new Error('Authentication is not available');
     }
     
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signUp({
@@ -103,10 +129,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+<<<<<<< HEAD
     if (!supabase) {
       throw new Error('Authentication is not available');
     }
     
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -120,6 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+<<<<<<< HEAD
     if (!supabase) {
       // If supabase is not available, just clear local state
       setUser(null);
@@ -128,6 +158,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return Promise.resolve();
     }
     
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signOut();
@@ -138,10 +170,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const resetPassword = async (email: string) => {
+<<<<<<< HEAD
     if (!supabase) {
       throw new Error('Authentication is not available');
     }
     
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
@@ -149,10 +184,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updatePassword = async (newPassword: string) => {
+<<<<<<< HEAD
     if (!supabase) {
       throw new Error('Authentication is not available');
     }
     
+=======
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
     const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
@@ -183,4 +221,8 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4c0ab23ab285bdc6612085aae4e1f6f50f30c714
